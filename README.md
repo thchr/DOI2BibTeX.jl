@@ -21,7 +21,9 @@ With output:
 >   journal = {Phys. Rev. Lett.}
 > }
 >```
-Journal titles are automatically abbreviated using the [List of Title Word Abbreviations](https://www.issn.org/services/online-services/access-to-the-ltwa/) (disable by setting the `abbreviate` keyword argument to `false`).
+
+The BibTeX entry is obtained from a GET request to https://doi.org/, following the approach described [here](https://discourse.julialang.org/t/replacing-citation-bib-with-a-standard-metadata-format/26871/4).
+Journal titles are subsequently abbreviated using the [List of Title Word Abbreviations](https://www.issn.org/services/online-services/access-to-the-ltwa/) (disable by setting the `abbreviate` keyword argument to `false`).
 
 ## Installation
 
