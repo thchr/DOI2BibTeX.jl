@@ -1,0 +1,12 @@
+name = "BibtexDOI"
+uuid = "f07c2035-147c-4265-9006-0e86cca2fe32"
+authors = ["Thomas Christensen <tchr@mit.edu>"]
+version = "0.1.0"
+
+[deps]
+HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
+TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
+
+[compat]
+HTTP = "1.5"
+julia = "1.6"
