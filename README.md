@@ -5,7 +5,7 @@ Get a well-formatted, journal-abbreviated BibTeX string from a DOI:
 ```jl
 julia> using BibtexDOI
 julia> doi = "10.1103/PhysRevLett.45.494"
-julia> print_doi2bib(doi) # or `doi2bib(doi) |> print`
+julia> doi2bib(doi) # or `doi2bib(doi) |> print`
 ```
 With output:
 
