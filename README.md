@@ -11,14 +11,14 @@ With output:
 
 > ```
 > @article{klitzing1980new,
->  doi = {10.1103/physrevlett.45.494},
->  year = 1980,
->  volume = {45},
->  number = {6},
->  pages = {494--497},
->  author = {K. v. Klitzing and G. Dorda and M. Pepper},
->  title = {New Method for High-Accuracy Determination of the Fine-Structure Constant Based on Quantized Hall Resistance},
->  journal = {Phys. Rev. Lett.}
+>   doi = {10.1103/physrevlett.45.494},
+>   year = 1980,
+>   volume = {45},
+>   number = {6},
+>   pages = {494--497},
+>   author = {K. v. Klitzing and G. Dorda and M. Pepper},
+>   title = {New Method for High-Accuracy Determination of the Fine-Structure Constant Based on Quantized Hall Resistance},
+>   journal = {Phys. Rev. Lett.}
 > }
 >```
 Journal titles are automatically abbreviated using the [List of Title Word Abbreviations](https://www.issn.org/services/online-services/access-to-the-ltwa/) (disable by setting the `abbreviate` keyword argument to `false`).
