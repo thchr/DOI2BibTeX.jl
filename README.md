@@ -25,7 +25,7 @@ Journal titles are automatically abbreviated using the [List of Title Word Abbre
 
 ## Installation
 
-The package is currently not registered. Install directly from the URL:
+The package is currently not registered. Install directly from the repository URL:
 ```jl
 julia> import Pkg
 julia> Pkg.add("https://github.com/thchr/BibtexDOI.jl")
