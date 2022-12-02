@@ -1,9 +1,10 @@
 using TOML
 
-const LTWA_STARTSWITH = convert(Dict{String, String}, TOML.tryparsefile("data/ltwa_startswith.toml"))::Dict{String, String}
-const LTWA_ENDSWITH   = convert(Dict{String, String}, TOML.tryparsefile("data/ltwa_endswith.toml")  )::Dict{String, String}
-const LTWA_CONTAINS   = convert(Dict{String, String}, TOML.tryparsefile("data/ltwa_contains.toml")  )::Dict{String, String}
-const LTWA_ENTIREWORD = convert(Dict{String, String}, TOML.tryparsefile("data/ltwa_entireword.toml"))::Dict{String, String}
+const DATA_PATH = joinpath(@__DIR__, "..", "data")
+const LTWA_STARTSWITH = convert(Dict{String, String}, TOML.tryparsefile(joinpath(DATA_PATH, "ltwa_startswith.toml")))::Dict{String, String}
+const LTWA_ENDSWITH   = convert(Dict{String, String}, TOML.tryparsefile(joinpath(DATA_PATH, "ltwa_endswith.toml"))  )::Dict{String, String}
+const LTWA_CONTAINS   = convert(Dict{String, String}, TOML.tryparsefile(joinpath(DATA_PATH, "ltwa_contains.toml"))  )::Dict{String, String}
+const LTWA_ENTIREWORD = convert(Dict{String, String}, TOML.tryparsefile(joinpath(DATA_PATH, "ltwa_entireword.toml")))::Dict{String, String}
 const PREPOSITIONS_CONJUNCTIONS_ARTICLES = Set([
   # prepositions: from https://github.com/bahamas10/prepositions
   "abaft", "aboard", "about", "above", "absent", "across", "afore", "after", "against",
@@ -59,7 +60,6 @@ function abbreviate(word::AbstractString)
     
     if haskey(LTWA_ENTIREWORD, word)
         # replace entire word by direct abbreviation
-        abbr = LTWA_ENTIREWORD
         return LTWA_ENTIREWORD[word]
     end
 
@@ -68,13 +68,18 @@ function abbreviate(word::AbstractString)
         return ""
     end
 
-    # TODO: since there are so many words in `LTWA_STARTSWITH`, it would be much better to
-    #       instead iterate over all substrings of `word` and check against `haskey` rather
-    #       than using `startswith`
-    for word_start in keys(LTWA_STARTSWITH)
-        if startswith(word, word_start)
+    # since there are ~20.000 words in `LTWA_STARTSWITH`, it is much better (especially in
+    # the case where there is no match) to iterate over all "starting substrings" of `word`
+    # and check against `haskey` (as opposed to e.g. checking all keys of `LTWA_STARTSWITH`
+    # against `startswith(word)`)
+    # [the same does not apply to `LTWA_ENDSWITH` or  `LTWA_CONTAINS` since they contains
+    # very few entries (167 and 20, respectively), s.t. iteration is at least okay there]
+    i = 0
+    while (i = nextind(word, i)) ≤ ncodeunits(word)
+        sub_word = @view word[1:i]
+        if haskey(LTWA_STARTSWITH, sub_word)
             # discard ending, abbreviate beginning
-            return LTWA_STARTSWITH[word_start]
+            return LTWA_STARTSWITH[sub_word]
         end
     end
 
