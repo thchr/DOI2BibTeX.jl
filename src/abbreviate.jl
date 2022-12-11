@@ -39,8 +39,13 @@ function journal_abbreviation(name::AbstractString)
             word = name[idx:prevind(name, next_idx)]
             idx = nextind(name, next_idx)
         else
-            word = name[idx:end]
-            idx = 0
+            if idx == 1 # single-word title: do not abbreviate
+                print(io, name)
+                break
+            else
+                word = name[idx:end]
+                idx = 0
+            end
         end
 
         abbr = abbreviate(lowercase(word))
