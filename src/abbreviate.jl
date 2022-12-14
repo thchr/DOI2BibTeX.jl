@@ -28,13 +28,22 @@ const PREPOSITIONS_CONJUNCTIONS_ARTICLES = Set([
   "therefore", "though", "unless", "until", "whenever", "when", "whereas", "wheresoever",
   "whereupon", "wherever", "where", "whether", "while", "whilst", "why", "without", "yet",
   # articles: from https://en.wikipedia.org/wiki/English_articles
-  "an", "a", "the"])
+  "an", "a", "the",
+  # TODO: German additions
+  "für", "der", "das", "dem", "und",
+  "f�r", # bugs from poor unicode handling by DOI response
+  # TODO: French additions
+  "les", "la", "et", "pre", "avante", "de",
+  # TODO: Italian additions,
+  "il",
+  # TODO: Spanish additions
+  ])
 
 function journal_abbreviation(name::AbstractString)
     idx = 1
     io = IOBuffer()
     while idx != 0
-        next_idx = findnext(' ', name, idx)
+        next_idx = findnext(c-> c == ' ' || c == '-', name, idx)
         if next_idx !== nothing
             word = name[idx:prevind(name, next_idx)]
             idx = nextind(name, next_idx)
@@ -47,11 +56,11 @@ function journal_abbreviation(name::AbstractString)
                 idx = 0
             end
         end
-
+        
         abbr = abbreviate(lowercase(word))
         if !isempty(abbr) # empty if we removed an article/preposition/conjunction
             print(io, abbr)
-            idx == 0 || print(io, ' ')
+            idx == 0 || print(io, name[something(next_idx)]) # print ' ' or '-'
         end
     end
     abbr_name = String(take!(io))
@@ -66,6 +75,14 @@ function abbreviate(word::AbstractString)
     if haskey(LTWA_ENTIREWORD, word)
         # replace entire word by direct abbreviation
         return LTWA_ENTIREWORD[word]
+    end
+
+    if last(word) == 's'
+        # same as above, but check for matches with English plural '-s' forms
+        singular_word = word[1:prevind(word, ncodeunits(word))]
+        if haskey(LTWA_ENTIREWORD, singular_word)
+            return LTWA_ENTIREWORD[singular_word]
+        end
     end
 
     # remove any prepositions/articles/conjunctions and also any "Part"/"Section"/"Series"
