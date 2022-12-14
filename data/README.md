@@ -4,5 +4,11 @@ Latest download: November 29, 2022.
 
 # Manual additions for missing words in LTWA
 
+## English
+
 - 'national' => 'natl.'
 - 'central' => 'cent.'
+
+## French
+
+- 'comptes rendus' => 'c. r.'

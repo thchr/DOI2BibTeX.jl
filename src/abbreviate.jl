@@ -73,8 +73,8 @@ function abbreviate(word::AbstractString)
         # interpret as acronym/volume number (e.g., 'IEEE' or 'A'); no further abbreviation
         return word′
     else
-        abbrev = abbreviate_lowercased(lowercase(word′))
-        return restore_capitalization(abbrev, word′)
+        abbrev = abbreviate_lowercased(rstrip(lowercase(word′), ':'))
+        return restore_capitalization_and_colon(abbrev, word′)
     end
 end
 
@@ -136,9 +136,10 @@ function abbreviate_lowercased(word::AbstractString)
     return word
 end
 
-function restore_capitalization(abbrev::AbstractString, word::AbstractString)
+function restore_capitalization_and_colon(abbrev::AbstractString, word::AbstractString)
     ncodeunits(abbrev) ≤ ncodeunits(word) || error("abbreviation is longer than word")
 
+    # restore capitalization in `abbrev`, mirroring that in `word`, from start of `word`
     io = IOBuffer()
     for (c, c′) in zip(abbrev, word)
         if isuppercase(c′)
@@ -147,5 +148,8 @@ function restore_capitalization(abbrev::AbstractString, word::AbstractString)
             write(io, c)
         end
     end
+    # restore possibly deleted colons
+    endswith(word, ':') && !endswith(abbrev, ':') && write(io, ':')
+
     return String(take!(io))
 end
