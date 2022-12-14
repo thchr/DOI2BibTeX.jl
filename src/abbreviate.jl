@@ -49,7 +49,7 @@ function journal_abbreviation(name::AbstractString)
             idx = nextind(name, next_idx)
         else
             if idx == 1 # single-word title: do not abbreviate
-                print(io, name)
+                print(io, rstrip(lstrip(name, '{'), '}'))
                 break
             else
                 word = name[idx:end]
@@ -57,17 +57,28 @@ function journal_abbreviation(name::AbstractString)
             end
         end
         
-        abbr = abbreviate(lowercase(word))
+        abbr = abbreviate(word)
         if !isempty(abbr) # empty if we removed an article/preposition/conjunction
             print(io, abbr)
             idx == 0 || print(io, name[something(next_idx)]) # print ' ' or '-'
         end
     end
     abbr_name = String(take!(io))
-    return titlecase(abbr_name)
+    return abbr_name
 end
 
 function abbreviate(word::AbstractString)
+    word′ = rstrip(lstrip(word, '{'), '}')
+    if all(isuppercase, word′)
+        # interpret as acronym/volume number (e.g., 'IEEE' or 'A'); no further abbreviation
+        return word′
+    else
+        abbrev = abbreviate_lowercased(lowercase(word′))
+        return restore_capitalization(abbrev, word′)
+    end
+end
+
+function abbreviate_lowercased(word::AbstractString)
     # roughly, we try to follow the ISO-4 rules, as e.g. summarized here
     # https://marcinwrochna.github.io/abbrevIso/
     # NB: the implementation assumes that `word` has been lowercased
@@ -123,4 +134,18 @@ function abbreviate(word::AbstractString)
 
     # no abbreviations found: keep original word
     return word
+end
+
+function restore_capitalization(abbrev::AbstractString, word::AbstractString)
+    ncodeunits(abbrev) ≤ ncodeunits(word) || error("abbreviation is longer than word")
+
+    io = IOBuffer()
+    for (c, c′) in zip(abbrev, word)
+        if isuppercase(c′)
+            write(io, uppercase(c))
+        else
+            write(io, c)
+        end
+    end
+    return String(take!(io))
 end
