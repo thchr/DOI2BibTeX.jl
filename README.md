@@ -27,6 +27,7 @@ The BibTeX entry is obtained from a GET request to https://doi.org/, following t
 ## Journal abbreviations
 
 Journal titles returned by `doi2bib` are automatically abbreviated using the [List of Title Word Abbreviations](https://www.issn.org/services/online-services/access-to-the-ltwa/) (disable by setting the `abbreviate` keyword argument of `doi2bib` to `false`).
+
 The functionality is also separately accessible via the exported function `journal_abbreviation`:
 
 ```jl
