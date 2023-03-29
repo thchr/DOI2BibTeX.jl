@@ -13,7 +13,7 @@ function _doi2bib(doi::AbstractString)
     doi = _replace(doi,
                    "http://" => "", "https://" => "", "doi.org/"=>"", "dx.doi.org/"=>"")
     return String(HTTP.get("https://doi.org/$doi",
-                           ["Accept" => "application/x-bibtex"]).body)
+                           ["Accept" => "application/x-bibtex"]).body)::String
 end
 
 function doi2bib(doi::AbstractString;
