@@ -57,7 +57,7 @@ function journal_abbreviation(name::AbstractString)
             end
         end
         
-        abbr = abbreviate(word)
+        abbr = abbreviate_word(word)
         if !isempty(abbr) # empty if we removed an article/preposition/conjunction
             print(io, abbr)
             idx == 0 || print(io, name[something(next_idx)]) # print ' ' or '-'
@@ -67,18 +67,18 @@ function journal_abbreviation(name::AbstractString)
     return abbr_name
 end
 
-function abbreviate(word::AbstractString)
+function abbreviate_word(word::AbstractString)
     word′ = rstrip(lstrip(word, '{'), '}')
     if all(isuppercase, word′)
         # interpret as acronym/volume number (e.g., 'IEEE' or 'A'); no further abbreviation
         return word′
     else
-        abbrev = abbreviate_lowercased(rstrip(lowercase(word′), ':'))
+        abbrev = abbreviate_lowercased_word(rstrip(lowercase(word′), ':'))
         return restore_capitalization_and_colon(abbrev, word′)
     end
 end
 
-function abbreviate_lowercased(word::AbstractString)
+function abbreviate_lowercased_word(word::AbstractString)
     # roughly, we try to follow the ISO-4 rules, as e.g. summarized here
     # https://marcinwrochna.github.io/abbrevIso/
     # NB: the implementation assumes that `word` has been lowercased

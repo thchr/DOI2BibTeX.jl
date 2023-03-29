@@ -1,9 +1,9 @@
-# BibtexDOI.jl
+# DOI2BibTeX.jl
 
 Get a well-formatted, journal-abbreviated BibTeX string from a DOI:
 
 ```jl
-julia> using BibtexDOI
+julia> using DOI2BibTeX
 julia> doi = "10.1103/PhysRevLett.45.494"
 julia> doi2bib(doi)
 ```
@@ -23,12 +23,27 @@ With output:
 >```
 
 The BibTeX entry is obtained from a GET request to https://doi.org/, following the approach described [here](https://discourse.julialang.org/t/replacing-citation-bib-with-a-standard-metadata-format/26871/4).
-Journal titles are subsequently abbreviated using the [List of Title Word Abbreviations](https://www.issn.org/services/online-services/access-to-the-ltwa/) (disable by setting the `abbreviate` keyword argument to `false`).
+
+## Journal abbreviations
+
+Journal titles returned by `doi2bib` are automatically abbreviated using the [List of Title Word Abbreviations](https://www.issn.org/services/online-services/access-to-the-ltwa/) (disable by setting the `abbreviate` keyword argument of `doi2bib` to `false`).
+The functionality is also separately accessible via the exported function `journal_abbreviation`:
+
+```jl
+julia> journal_abbreviation("Physical Review Letters")
+"Phys. Rev. Lett."
+
+julia> journal_abbreviation("Journal of Physical Chemistry Letters")
+"J. Phys. Chem. Lett."
+
+julia> journal_abbreviation("npj Quantum Materials")
+"npj Quantum Mater."
+```
 
 ## Installation
 
 The package is not currently registered. Install directly from the repository URL:
 ```jl
 julia> import Pkg
-julia> Pkg.add("https://github.com/thchr/BibtexDOI.jl")
+julia> Pkg.add("https://github.com/thchr/DOI2BibTeX.jl")
 ```
