@@ -5,6 +5,7 @@ struct Citation
     s :: String
 end
 Base.show(io::IO, ::MIME"text/plain", c::Citation) = print(io, c.s)
+Base.iterate(c::Citation, state=1) = iterate(c.s, state)
 
 # see https://discourse.julialang.org/t/replacing-citation-bib-with-a-standard-metadata-format/26871/4
 # and the crossref API at https://citation.crosscite.org/docs.html
