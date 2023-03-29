@@ -72,7 +72,7 @@ end
 
 function abbreviate_word(word::AbstractString)
     word′ = rstrip(lstrip(word, '{'), '}')
-    if all(isuppercase, word′)
+    if all(c -> isuppercase(c) || c==(':') , word′) && endswith(word′, ':')
         # interpret as acronym/volume number (e.g., 'IEEE' or 'A'); no further abbreviation
         return word′
     else
@@ -101,6 +101,7 @@ function abbreviate_lowercased_word(word::AbstractString)
 
     # remove any prepositions/articles/conjunctions and also any "Part"/"Section"/"Series"
     if word ∈ PREPOSITIONS_CONJUNCTIONS_ARTICLES || word ∈ ("part", "section", "series")
+        # FIXME: the "series" check is ineffectual since "series" is in `LTWA_ENTIREWORD`
         return ""
     end
 
@@ -114,8 +115,16 @@ function abbreviate_lowercased_word(word::AbstractString)
     while (i = nextind(word, i)) ≤ ncodeunits(word)
         sub_word = @view word[1:i]
         if haskey(LTWA_STARTSWITH, sub_word)
-            # discard ending, abbreviate beginning
-            return LTWA_STARTSWITH[sub_word]
+            abbr = LTWA_STARTSWITH[sub_word]
+            # two cases: 
+            #   1. the word is abbreviated to itself, i.e. `abbr ==  word*'.'`: if so, avoid
+            #      inserting superfluous '.'
+            #   2. otherwise: discard ending, abbreviate beginning (ends with `.`)
+            if rstrip(abbr, '.') == word # word is equal to abbreviation; avoid punctuation
+                return String(word)::String
+            else
+                return abbr
+            end
         end
     end
 
@@ -136,7 +145,7 @@ function abbreviate_lowercased_word(word::AbstractString)
     end
 
     # no abbreviations found: keep original word
-    return word
+    return String(word)::String
 end
 
 function restore_capitalization_and_colon(abbrev::AbstractString, word::AbstractString)

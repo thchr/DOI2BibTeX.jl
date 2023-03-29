@@ -20,6 +20,15 @@ using Test, DOI2BibTeX
 # abbreviation includes hyphens as word-splitters:
 @test journal_abbreviation("Non-Crystalline") == "Non-Cryst."
 
+# abbreviations with words that abbreviate to themselves ("Light" below)
+@test journal_abbreviation("Light: Science & Applications") == "Light: Sci. Appl."
+
+# abbreviations with weirdly formatted ampersands
+@test journal_abbreviation(raw"Laser {\&}amp$\mathsemicolon$ Photonics Reviews") == "Laser Photonics Rev."
+
+## abbreviations that include all-capitals followed by ':'
+@test journal_abbreviation("Journal of Physics A: Mathematical and Theoretical") == "J. Phys. A: Math. Theor."
+
 ## --------------------------------------------------------------------------------------- #
 ## check that we can parse a long list of DOIs
 
