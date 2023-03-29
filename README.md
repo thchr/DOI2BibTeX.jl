@@ -1,5 +1,7 @@
 # DOI2BibTeX.jl
 
+[![Build status][ci-status-img]][ci-status-url] [![Coverage][coverage-img]][coverage-url]
+
 Get a well-formatted, journal-abbreviated BibTeX string from a DOI:
 
 ```jl
@@ -48,3 +50,8 @@ The package is not currently registered. Install directly from the repository UR
 julia> import Pkg
 julia> Pkg.add("https://github.com/thchr/DOI2BibTeX.jl")
 ```
+
+[ci-status-img]: https://github.com/thchr/DOI2BibTeX.jl/actions/workflows/ci.yml/badge.svg?branch=master
+[ci-status-url]: https://github.com/thchr/DOI2BibTeX.jl/actions/workflows/ci.yml?query=branch%3Amaster
+[coverage-img]:  https://codecov.io/gh/thchr/DOI2BibTeX.jl/branch/master/graph/badge.svg
+[coverage-url]:  https://codecov.io/gh/thchr/DOI2BibTeX.jl
