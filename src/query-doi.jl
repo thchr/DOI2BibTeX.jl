@@ -9,7 +9,7 @@ Base.show(io::IO, ::MIME"text/plain", c::Citation) = print(io, c.s)
 # see https://discourse.julialang.org/t/replacing-citation-bib-with-a-standard-metadata-format/26871/4
 # and the crossref API at https://citation.crosscite.org/docs.html
 function _doi2bib(doi::AbstractString)
-    doi = replace(doi, "http://" => "", "https://" => "", "doi.org/"=>"")
+    doi = replace(doi, "http://" => "", "https://" => "", "doi.org/"=>"", "dx.doi.org/"=>"")
     return String(HTTP.get("https://doi.org/$doi",
                            ["Accept" => "application/x-bibtex"]).body)
 end
