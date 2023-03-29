@@ -93,5 +93,5 @@ end
         return str
     end
 else
-    _replace(str::String, pat_repl::Vararg{Pair, N}) = replace(str, pat_repl)
+    _replace(str::String, pat_repl::Vararg{Pair, N}) where N = replace(str, pat_repl)
 end
