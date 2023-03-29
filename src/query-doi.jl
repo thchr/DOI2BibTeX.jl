@@ -21,8 +21,10 @@ function doi2bib(doi::AbstractString;
             abbreviate::Bool = true  # abbreviate journal title
             )
 
-    s = _doi2bib(doi)
+    return _prettify_bib(_doi2bib(doi), minimal, abbreviate)
+end
 
+function _prettify_bib(s::String, minimal::Bool, abbreviate::Bool)
     # TODO: Would be a ton better to do all these things with a dedicated BibTeX parser
     #       (the regex hacks don't really cut it; need a proper automata).
     #       Both Bibliography.jl and BibTeX.jl have awkward interfaces though: maybe just
