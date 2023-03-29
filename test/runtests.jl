@@ -20,3 +20,17 @@ using Test, DOI2BibTeX
 # abbreviation includes hyphens as word-splitters:
 @test journal_abbreviation("Non-Crystalline") == "Non-Cryst."
 
+## --------------------------------------------------------------------------------------- #
+## check that we can parse a long list of DOIs
+
+# bugs lists
+broken_idxs = [310, 376, 385, 410] # ampersands and backslashes
+look_at_idxs = [280] # awkward journal titles that contain descriptions
+
+dois = replace.(split(read(joinpath((@__DIR__), "doi-list.txt"), String), '\n'), '\r' => "")
+@testset "Parse list of DOIs" begin
+    for (i,doi) in enumerate(dois)
+        @test !isempty(doi2bib(doi))
+    end
+    # FIXME: `i=280`, aka awkward journal titles that contain descriptions (issue #3)
+end

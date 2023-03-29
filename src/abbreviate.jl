@@ -29,6 +29,9 @@ const PREPOSITIONS_CONJUNCTIONS_ARTICLES = Set([
   "whereupon", "wherever", "where", "whether", "while", "whilst", "why", "without", "yet",
   # articles: from https://en.wikipedia.org/wiki/English_articles
   "an", "a", "the",
+  # weirdly formatted or unicode variations
+  "&",
+  "\\&}amp\$\\mathsemicolon\$", # NB: usually returned as "{\\&}amp [...]"; we omit the initial '{' since `abbreviate_word` does `lstrip(..., '{')`
   # TODO: German additions
   "für", "der", "das", "dem", "und",
   "f�r", # bugs from poor unicode handling by DOI response
