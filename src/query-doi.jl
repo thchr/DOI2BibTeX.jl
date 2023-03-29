@@ -86,12 +86,12 @@ end
 
 @static if VERSION < v"1.7"
     # multi pattern `replace` only introduced in 1.7: add a work-around
-    function _replace(str::String, pat_repl::Vararg{Pair, N}) where N
-        for p in pat_repl
+    function _replace(str::String, ps::Vararg{Pair, N}) where N
+        for p in ps
             str = replace(str, p)
         end
         return str
     end
 else
-    _replace(str::String, pat_repl::Vararg{Pair, N}) where N = replace(str, pat_repl)
+    _replace(str::String, ps::Vararg{Pair, N}) where N = replace(str, ps...)
 end
