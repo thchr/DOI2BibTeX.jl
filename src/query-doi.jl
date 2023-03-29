@@ -10,7 +10,8 @@ Base.iterate(c::Citation, state=1) = iterate(c.s, state)
 # see https://discourse.julialang.org/t/replacing-citation-bib-with-a-standard-metadata-format/26871/4
 # and the crossref API at https://citation.crosscite.org/docs.html
 function _doi2bib(doi::AbstractString)
-    doi = replace(doi, "http://" => "", "https://" => "", "doi.org/"=>"", "dx.doi.org/"=>"")
+    doi = _replace(doi,
+                   "http://" => "", "https://" => "", "doi.org/"=>"", "dx.doi.org/"=>"")
     return String(HTTP.get("https://doi.org/$doi",
                            ["Accept" => "application/x-bibtex"]).body)
 end
@@ -81,4 +82,16 @@ function _tryparse_doctype_author_year(s)
         
         return doctype, author, year
     end
+end
+
+@static if VERSION < v"1.7"
+    # multi pattern `replace` only introduced in 1.7: add a work-around
+    function _replace(str::String, pat_repl::Vararg{Pair, N}) where N
+        for p in pat_repl
+            str = replace(str, p)
+        end
+        return str
+    end
+else
+    _replace(str::String, pat_repl::Vararg{Pair, N}) = replace(str, pat_repl)
 end
