@@ -72,7 +72,7 @@ end
 
 function abbreviate_word(word::AbstractString)
     word′ = rstrip(lstrip(word, '{'), '}')
-    if all(c -> isuppercase(c) || c==(':') , word′) && endswith(word′, ':')
+    if all(c -> isuppercase(c) || c==(':') , word′)
         # interpret as acronym/volume number (e.g., 'IEEE' or 'A'); no further abbreviation
         return word′
     else
