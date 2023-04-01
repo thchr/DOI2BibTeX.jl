@@ -45,7 +45,7 @@ julia> journal_abbreviation("npj Quantum Materials")
 
 ## Installation
 
-The package is registered in Julia's Geberal registry and can be installed from the `pkg>` prompt:
+The package is registered in Julia's General registry and can be installed from the `pkg>` prompt:
 ```jl
 pkg> add DOI2BibTeX
 ```
