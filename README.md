@@ -45,10 +45,9 @@ julia> journal_abbreviation("npj Quantum Materials")
 
 ## Installation
 
-The package is not currently registered. Install directly from the repository URL:
+The package is registered in Julia's Geberal registry and can be installed from the `pkg>` prompt:
 ```jl
-julia> import Pkg
-julia> Pkg.add("https://github.com/thchr/DOI2BibTeX.jl")
+pkg> add DOI2BibTeX
 ```
 
 [ci-status-img]: https://github.com/thchr/DOI2BibTeX.jl/actions/workflows/ci.yml/badge.svg?branch=master
