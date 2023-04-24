@@ -1,14 +1,14 @@
 name = "DOI2BibTeX"
 uuid = "f07c2035-147c-4265-9006-0e86cca2fe32"
 authors = ["Thomas Christensen <tchr@mit.edu>"]
-version = "0.1.1"
+version = "0.1.2"
 
 [deps]
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
+PrecompileTools = "aea7be01-6a6a-4083-8856-8a6e6704d82a"
 TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
-SnoopPrecompile = "66db9d55-30c0-4569-8b51-7e840670fc0c"
 
 [compat]
 HTTP = "1.5"
-SnoopPrecompile = "1"
+PrecompileTools = "1"
 julia = "1.6"

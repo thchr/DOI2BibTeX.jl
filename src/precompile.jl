@@ -1,5 +1,5 @@
-using SnoopPrecompile
-@precompile_setup begin
+using PrecompileTools
+@setup_workload begin
     bib = """
     @article{klitzing1980new,
       doi = {10.1103/physrevlett.45.494},
@@ -15,7 +15,7 @@ using SnoopPrecompile
       journal = {Physical Review Letters}
     }
     """
-    @precompile_all_calls begin
+    @compile_workload begin
         _prettify_bib(bib, #=minimal=# true, #=abbreviate=# true)
     end
 end
