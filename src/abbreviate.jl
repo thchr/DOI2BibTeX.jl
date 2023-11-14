@@ -38,7 +38,7 @@ const PREPOSITIONS_CONJUNCTIONS_ARTICLES = Set([
   # TODO: French additions
   "les", "la", "et", "pre", "avante", "de",
   # TODO: Italian additions,
-  "il",
+  "il", "del",
   # TODO: Spanish additions
   ])
 
