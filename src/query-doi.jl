@@ -30,13 +30,18 @@ function _prettify_bib(s::String, minimal::Bool, abbreviate::Bool)
     #       Both Bibliography.jl and BibTeX.jl have awkward interfaces though: maybe just
     #       polish up /thchr/SimpleBibTeX.jl and use that?
 
-    # remove unnecessary fields
-    if minimal
-        s = replace(s, r"\n\t(publisher|month|url) =.*" => "")
+    # the GET request often includes a redundant leading space; remove it
+    if startswith(s, " ")
+        s = lstrip(s)
     end
 
-    # change tabs to double-spaces
-    s = replace(s, "\t" => "  ")
+    # insert a double space before every field
+    s = replace(s, r"\, ([a-z,A-Z]+?)=" => s",\n  \1 = ")
+
+    # remove unnecessary fields
+    if minimal
+        s = replace(s, r"\n  (publisher|month|url) =.*" => "")
+    end
 
     # generate a better name for the entry
     firstword = _tryparse_first_word_of_title(s)
@@ -45,13 +50,19 @@ function _prettify_bib(s::String, minimal::Bool, abbreviate::Bool)
 
     # abbreviate the journal title
     if abbreviate
-        m = match(r"journal = \{(.+)\},?\n", s)
+        m = match(r"journal=\{(.+)\},?\n", s)
         if !isnothing(m)
             journal_name = something(m).captures[1]
             journal_abbr = journal_abbreviation(journal_name)
             s = replace(s, r"journal = \{.+\}(,?\n)" => 
                             SubstitutionString("journal = {"*journal_abbr*"}\\1"))
         end
+    end
+
+    # the GET request has a space-dangling close bracket `" }\n"`: fix it
+    if endswith(s, " }\n")
+        stopidx = prevind(s, lastindex(s), 3)
+        s = s[1:stopidx] * "\n}"
     end
 
     return Citation(s)
