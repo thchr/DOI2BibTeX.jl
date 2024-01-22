@@ -13,14 +13,14 @@ With output:
 
 > ```
 > @article{klitzing1980new,
->   doi = {10.1103/physrevlett.45.494},
->   year = 1980,
->   volume = {45},
->   number = {6},
->   pages = {494--497},
->   author = {K. v. Klitzing and G. Dorda and M. Pepper},
 >   title = {New Method for High-Accuracy Determination of the Fine-Structure Constant Based on Quantized Hall Resistance},
->   journal = {Phys. Rev. Lett.}
+>   volume = {45},
+>   doi = {10.1103/physrevlett.45.494},
+>   number = {6},
+>   journal = {Phys. Rev. Lett.},
+>   author = {Klitzing, K. v. and Dorda, G. and Pepper, M.},
+>   year = {1980},
+>   pages = {494–497}
 > }
 >```
 

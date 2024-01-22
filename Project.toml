@@ -1,7 +1,7 @@
 name = "DOI2BibTeX"
 uuid = "f07c2035-147c-4265-9006-0e86cca2fe32"
 authors = ["Thomas Christensen <tchr@mit.edu>"]
-version = "0.1.4"
+version = "0.1.5"
 
 [deps]
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"

@@ -35,12 +35,12 @@ function _prettify_bib(s::String, minimal::Bool, abbreviate::Bool)
         s = lstrip(s)
     end
 
-    # insert a double space before every field
+    # insert a double space before every field and space out `=` sign
     s = replace(s, r"\, ([a-z,A-Z]+?)=" => s",\n  \1 = ")
 
     # remove unnecessary fields
     if minimal
-        s = replace(s, r"\n  (publisher|month|url) =.*" => "")
+        s = replace(s, r"\n  (publisher|month|url|ISSN) =.*" => "")
     end
 
     # generate a better name for the entry
@@ -50,7 +50,7 @@ function _prettify_bib(s::String, minimal::Bool, abbreviate::Bool)
 
     # abbreviate the journal title
     if abbreviate
-        m = match(r"journal=\{(.+)\},?\n", s)
+        m = match(r"journal = \{(.+)\},?\n", s)
         if !isnothing(m)
             journal_name = something(m).captures[1]
             journal_abbr = journal_abbreviation(journal_name)
@@ -59,9 +59,18 @@ function _prettify_bib(s::String, minimal::Bool, abbreviate::Bool)
         end
     end
 
-    # the GET request has a space-dangling close bracket `" }\n"`: fix it
+    # use lowercase `doi` for DOI field
+    s = replace(s, "\n  DOI = {" => "\n  doi = {")
+
+    # misc clean-up
     if endswith(s, " }\n")
+        # the GET request often has a space-dangling close bracket `" }\n"`: fix it
         stopidx = prevind(s, lastindex(s), 3)
+        s = s[1:stopidx] * "\n}"
+    elseif endswith(s, ",\n")
+        # the last line is sometimes mangled due to `minimal`-related removal of last-entry
+        # field (e.g. `month = sep`)
+        stopidx = prevind(s, lastindex(s), 2)
         s = s[1:stopidx] * "\n}"
     end
 
