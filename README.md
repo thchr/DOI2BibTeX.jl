@@ -26,6 +26,29 @@ With output:
 
 The BibTeX entry is obtained from a GET request to https://doi.org/, following the approach described [here](https://discourse.julialang.org/t/replacing-citation-bib-with-a-standard-metadata-format/26871/4).
 
+### arXiv BibTeX 
+
+It is also possible to obtain an [arXiv](https://arxiv.org) BibTeX entry using:
+
+```jl
+julia> using DOI2BibTeX
+julia> arxiv = "arxiv:1710.10324"
+julia> arxiv2bib(arxiv)
+```
+
+which will give:
+
+>```
+> @misc{xie2018crystal,
+>      title = {Crystal Graph Convolutional Neural Networks for an Accurate and Interpretable Prediction of Material Properties}, 
+>      author = {Tian Xie and Jeffrey C. Grossman},
+>      year = {2018},
+>      eprint = {1710.10324},
+>      archivePrefix = {arXiv},
+>      primaryClass = {cond-mat.mtrl-sci}
+> }
+>```
+
 ## Journal abbreviations
 
 Journal titles returned by `doi2bib` are automatically abbreviated using the [List of Title Word Abbreviations](https://www.issn.org/services/online-services/access-to-the-ltwa/) (disable by setting the `abbreviate` keyword argument of `doi2bib` to `false`).
