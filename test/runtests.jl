@@ -58,3 +58,25 @@ dois = replace.(split(read(joinpath((@__DIR__), "doi-list.txt"), String), '\n'),
     end
     # FIXME: `i=280`, aka awkward journal titles that contain descriptions (issue #3)
 end
+
+
+## --------------------------------------------------------------------------------------- #
+# Test that what we say in the README.md is true:
+s_arxiv_readme = """
+@misc{xie2018crystal,
+      title = {Crystal Graph Convolutional Neural Networks for an Accurate and Interpretable Prediction of Material Properties}, 
+      author = {Tian Xie and Jeffrey C. Grossman},
+      year = {2018},
+      eprint = {1710.10324},
+      archivePrefix = {arXiv},
+      primaryClass = {cond-mat.mtrl-sci}
+}"""
+
+@test arxiv2bib("arxiv:1710.10324").s  == s_arxiv_readme
+
+arxivs = replace.(split(read(joinpath((@__DIR__), "arxiv-list.txt"), String), '\n'), '\r' => "")
+@testset "Parse list of arXivs" begin
+    for (i,arxiv) in enumerate(arxivs)
+        @test !isempty(arxiv2bib(arxiv))
+    end
+end
