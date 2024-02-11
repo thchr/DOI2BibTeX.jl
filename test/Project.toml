@@ -2,3 +2,6 @@
 DOI2BibTeX = "f07c2035-147c-4265-9006-0e86cca2fe32"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 TestReadme = "484a2c26-6e88-4a69-ae62-8a3d6c887535"
+
+[compat]
+TestReadme = "0.1.1"
