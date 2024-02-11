@@ -24,7 +24,7 @@ The BibTeX entry is obtained from a GET request to https://doi.org/, following t
 
 ### arXiv BibTeX 
 
-It is also possible to obtain an [arXiv](https://arxiv.org) BibTeX entry using:
+It is also possible to obtain an BibTeX entry associated with an [arXiv](https://arxiv.org) identifier:
 
 ```jl
 julia> using DOI2BibTeX
