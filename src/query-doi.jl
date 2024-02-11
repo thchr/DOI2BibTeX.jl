@@ -36,7 +36,7 @@ function _prettify_bib(s::String, minimal::Bool, abbreviate::Bool)
     end
 
     # insert a double space before every field and space out `=` sign
-    s = replace(s, r"\, ([a-z,A-Z]+?)=" => s",\n  \1 = ")
+    s = replace(s, r"\,\n?\s+?([a-z,A-Z]+?)=" => s",\n  \1 = ")
 
     # remove unnecessary fields
     if minimal

@@ -8,11 +8,9 @@ function _arxiv2bib(arxiv::AbstractString)
 end
 
 function arxiv2bib(arxiv::AbstractString;
-	minimal::Bool    = true,
-	abbreviate::Bool = true,
-)
-	arxiv_bib = _arxiv2bib(arxiv)
-	# _prettify_bib doesn't completly catch arXiv bibtex frmt
-	arxiv_bib = replace(arxiv_bib, r"(?<! )=(?! )" => " = ")
-	return _prettify_bib(arxiv_bib, minimal, abbreviate)
+			minimal::Bool    = true,
+			abbreviate::Bool = true
+			)
+
+	return _prettify_bib(_arxiv2bib(arxiv), minimal, abbreviate)
 end
